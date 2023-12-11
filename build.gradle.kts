@@ -9,7 +9,7 @@ plugins {
 val versionMain: String = System.getenv("VERSION") ?: "0.0.0"
 
 base {
-    group = "dev.compactmods.feather"
+    group = "dev.compactmods"
     version = versionMain
 }
 
