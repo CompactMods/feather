@@ -4,7 +4,7 @@ import dev.compactmods.feather.node.Node;
 
 import java.lang.ref.WeakReference;
 
-public interface GraphEdge<S, SN extends Node<S>, T, TN extends Node<T>> {
+public interface GraphEdge<SN extends Node<?>, TN extends Node<?>> {
 
     WeakReference<SN> source();
 

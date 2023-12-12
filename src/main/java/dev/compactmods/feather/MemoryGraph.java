@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"unused", "UnstableApiUsage"})
 public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
 
-    private final MutableValueGraph<Node<?>, GraphEdge<?, ?, ?, ?>> graph;
+    private final MutableValueGraph<Node<?>, GraphEdge<?, ?>> graph;
     private final ConcurrentHashMap<UUID, Node<?>> nodes = new ConcurrentHashMap<>();
 
     public MemoryGraph() {
@@ -77,19 +77,19 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
         return node;
     }
 
-    public <U, V> GraphEdge<U, Node<U>, V, Node<V>> connectNodes(Node<U> u, Node<V> v) {
+    public <U, V> GraphEdge<Node<U>, Node<V>> connectNodes(Node<U> u, Node<V> v) {
         final var edge = new EmptyEdge<>(u, v);
         this.graph.putEdgeValue(u, v, edge);
         return edge;
     }
 
-    public <S, SN extends Node<S>, T, TN extends Node<T>, E extends GraphEdge<S, SN, T, TN>> E connectNodes(SN u, TN v, E edge) {
+    public <S, SN extends Node<S>, T, TN extends Node<T>, E extends GraphEdge<SN, TN>> E connectNodes(SN u, TN v, E edge) {
         this.graph.putEdgeValue(u, v, edge);
         return edge;
     }
 
     @Override
-    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<S, SN, T, TN>> edges(Class<SN> sourceNodeType, Class<TN> targetNodeType) {
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(Class<SN> sourceNodeType, Class<TN> targetNodeType) {
         return graph.edges().stream()
                 .filter(ep -> sourceNodeType.isInstance(ep.source()))
                 .filter(ep -> targetNodeType.isInstance(ep.target()))
@@ -97,11 +97,11 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
                     final var val = graph.edgeValue(ep);
 
                     //noinspection unchecked
-                    return (GraphEdge<S, SN, T, TN>) val.orElseThrow();
+                    return (GraphEdge<SN, TN>) val.orElseThrow();
                 });
     }
 
-    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<S, SN, T, TN>> edges(GraphEdgeLookupFunction<S, SN, T, TN> func) {
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(GraphEdgeLookupFunction<S, SN, T, TN> func) {
         return func.edges(this);
     }
 }
