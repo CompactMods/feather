@@ -5,6 +5,6 @@ import dev.compactmods.feather.node.Node;
 import java.util.stream.Stream;
 
 @FunctionalInterface
-public interface GraphEdgeLookupFunction<OD, Origin extends Node<OD>, DD, Destination extends Node<DD>> {
-    Stream<GraphEdge<Origin, Destination>> edges(GraphEdgeAccessor graph);
+public interface GraphEdgeLookupFunction<SN extends Node<?>, TN extends Node<?>> {
+    Stream<GraphEdge<SN, TN>> edges(GraphEdgeAccessor graph);
 }

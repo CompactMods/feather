@@ -5,6 +5,7 @@ import com.google.common.graph.ValueGraphBuilder;
 import dev.compactmods.feather.edge.GraphEdge;
 import dev.compactmods.feather.edge.GraphEdgeAccessor;
 import dev.compactmods.feather.edge.GraphEdgeLookupFunction;
+import dev.compactmods.feather.edge.OutboundGraphEdgeLookupFunction;
 import dev.compactmods.feather.edge.impl.EmptyEdge;
 import dev.compactmods.feather.graph.NodeAccessor;
 import dev.compactmods.feather.node.GraphAdjacentNodeStream;
@@ -77,6 +78,7 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
         return node;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public <U, V> GraphEdge<Node<U>, Node<V>> connectNodes(Node<U> u, Node<V> v) {
         final var edge = new EmptyEdge<>(u, v);
         this.graph.putEdgeValue(u, v, edge);
@@ -101,7 +103,13 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
                 });
     }
 
-    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(GraphEdgeLookupFunction<S, SN, T, TN> func) {
+    @Override
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(GraphEdgeLookupFunction<SN, TN> func) {
         return func.edges(this);
+    }
+
+    @Override
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(OutboundGraphEdgeLookupFunction<SN, TN> func, SN sourceNode) {
+        return func.getOutboundEdges(this, sourceNode);
     }
 }

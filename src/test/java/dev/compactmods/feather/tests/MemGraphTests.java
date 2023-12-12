@@ -13,11 +13,11 @@ public class MemGraphTests {
     static final Predicate<StringNode> NODE_1_FILTER = n -> n.data().equals("test1");
     static final GraphNodeStream<StringNode> NODE_1_STREAM = g -> g.nodes(StringNode.class).filter(NODE_1_FILTER);
 
-    static final GraphEdgeLookupFunction<String, StringNode, String, StringNode> STRING_TO_STRING_LOOKUP =
+    static final GraphEdgeLookupFunction<StringNode, StringNode> STRING_TO_STRING_LOOKUP =
             (edgeAccessor) -> edgeAccessor.edges(StringNode.class, StringNode.class);
 
     @Test
-    public void canCreateBasicGraph() throws Exception {
+    public void canCreateBasicGraph() {
         final var graph = TestUtils.createBasicGraph(1);
 
         Assertions.assertNotNull(graph);
