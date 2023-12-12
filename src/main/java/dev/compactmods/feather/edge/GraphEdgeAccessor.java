@@ -10,5 +10,7 @@ public interface GraphEdgeAccessor {
 
     <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(GraphEdgeLookupFunction<SN, TN> func);
 
+    <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(SN sourceNode, Class<TN> targetNodeClass);
+
     <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(OutboundGraphEdgeLookupFunction<SN, TN> func, SN sourceNode);
 }

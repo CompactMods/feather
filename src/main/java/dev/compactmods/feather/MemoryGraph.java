@@ -14,6 +14,7 @@ import dev.compactmods.feather.node.GraphNodeStream;
 import dev.compactmods.feather.traversal.GraphNodeStreamFunction;
 import dev.compactmods.feather.traversal.GraphNodeTransformationFunction;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -106,6 +107,19 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
     @Override
     public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(GraphEdgeLookupFunction<SN, TN> func) {
         return func.edges(this);
+    }
+
+    @Override
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(SN sourceNode, Class<TN> targetNodeClass) {
+        return graph.successors(sourceNode)
+                .stream()
+                .filter(targetNodeClass::isInstance)
+                .map(tn -> graph.edgeValue(sourceNode, tn).orElse(null))
+                .filter(Objects::nonNull)
+                .map(e -> {
+                    //noinspection unchecked
+                    return (GraphEdge<SN, TN>) e;
+                });
     }
 
     @Override
