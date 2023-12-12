@@ -8,6 +8,7 @@ public interface Node<T> {
 
     T data();
 
-    void setData(T data);
-
+    interface Mutable<T> extends Node<T> {
+        void setData(T data);
+    }
 }

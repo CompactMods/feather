@@ -5,7 +5,7 @@ import dev.compactmods.feather.node.Node;
 import java.util.Objects;
 import java.util.UUID;
 
-public class ScalarValueNode<T> implements Node<T> {
+public class ScalarValueNode<T> implements Node.Mutable<T> {
 
     private final UUID id;
     private T data;
