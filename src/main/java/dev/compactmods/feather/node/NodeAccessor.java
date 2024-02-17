@@ -1,4 +1,4 @@
-package dev.compactmods.feather.graph;
+package dev.compactmods.feather.node;
 
 import dev.compactmods.feather.node.Node;
 
@@ -13,4 +13,5 @@ public interface NodeAccessor {
     <T extends Node<?>> Stream<Node<?>> predecessors(T sourceNode);
 
     <T extends Node<?>> Stream<Node<?>> successors(T sourceNode);
+
 }

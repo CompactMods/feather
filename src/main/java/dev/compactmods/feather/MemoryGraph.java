@@ -5,14 +5,16 @@ import com.google.common.graph.ValueGraphBuilder;
 import dev.compactmods.feather.edge.GraphEdge;
 import dev.compactmods.feather.edge.GraphEdgeAccessor;
 import dev.compactmods.feather.edge.GraphEdgeLookupFunction;
+import dev.compactmods.feather.edge.InboundGraphEdgeLookupFunction;
 import dev.compactmods.feather.edge.OutboundGraphEdgeLookupFunction;
 import dev.compactmods.feather.edge.impl.EmptyEdge;
-import dev.compactmods.feather.graph.NodeAccessor;
+import dev.compactmods.feather.node.NodeAccessor;
 import dev.compactmods.feather.node.GraphAdjacentNodeStream;
 import dev.compactmods.feather.node.Node;
 import dev.compactmods.feather.node.GraphNodeStream;
 import dev.compactmods.feather.traversal.GraphNodeStreamFunction;
 import dev.compactmods.feather.traversal.GraphNodeTransformationFunction;
+import dev.compactmods.feather.traversal.GraphTraversalHelper;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -105,16 +107,9 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
     }
 
     @Override
-    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> edges(GraphEdgeLookupFunction<SN, TN> func) {
-        return func.edges(this);
-    }
-
-    @Override
-    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(SN sourceNode, Class<TN> targetNodeClass) {
-        return graph.successors(sourceNode)
-                .stream()
-                .filter(targetNodeClass::isInstance)
-                .map(tn -> graph.edgeValue(sourceNode, tn).orElse(null))
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> inboundEdges(TN targetNode, Class<SN> sourceNodeClass) {
+        return GraphTraversalHelper.predecessors(this, targetNode, sourceNodeClass)
+                .map(sn -> graph.edgeValue(sn, targetNode).orElse(null))
                 .filter(Objects::nonNull)
                 .map(e -> {
                     //noinspection unchecked
@@ -123,7 +118,13 @@ public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
     }
 
     @Override
-    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(OutboundGraphEdgeLookupFunction<SN, TN> func, SN sourceNode) {
-        return func.getOutboundEdges(this, sourceNode);
+    public <S, SN extends Node<S>, T, TN extends Node<T>> Stream<GraphEdge<SN, TN>> outboundEdges(SN sourceNode, Class<TN> targetNodeClass) {
+        return GraphTraversalHelper.successors(this, sourceNode, targetNodeClass)
+                .map(tn -> graph.edgeValue(sourceNode, tn).orElse(null))
+                .filter(Objects::nonNull)
+                .map(e -> {
+                    //noinspection unchecked
+                    return (GraphEdge<SN, TN>) e;
+                });
     }
 }
