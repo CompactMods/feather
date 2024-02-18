@@ -13,6 +13,11 @@ base {
     version = versionMain
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 repositories {
     mavenCentral()
 }
