@@ -2,15 +2,16 @@ package dev.compactmods.feather.tests;
 
 import dev.compactmods.feather.edge.GraphEdgeLookupFunction;
 import dev.compactmods.feather.node.GraphNodeStream;
-import dev.compactmods.feather.node.Node;
+import dev.compactmods.feather.tests.example.NamedBlockPositionNode;
+import dev.compactmods.feather.tests.example.StringNode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class MemGraphTests {
-    static final Predicate<StringNode> NODE_1_FILTER = n -> n.data().equals("test1");
+
+    static final Predicate<StringNode> NODE_1_FILTER = n -> n.value().equals("test1");
     static final GraphNodeStream<StringNode> NODE_1_STREAM = g -> g.nodes(StringNode.class).filter(NODE_1_FILTER);
 
     static final GraphEdgeLookupFunction<StringNode, StringNode> STRING_TO_STRING_LOOKUP =
@@ -29,13 +30,13 @@ public class MemGraphTests {
 
         Assertions.assertNotNull(graph);
 
-        final Node<String> node = graph.nodes(NODE_1_STREAM)
+        final StringNode node = graph.nodes(NODE_1_STREAM)
                 .findFirst()
                 .orElseThrow();
 
         Assertions.assertNotNull(node);
-        Assertions.assertInstanceOf(Node.class, node);
-        Assertions.assertEquals("test1", node.data());
+        Assertions.assertInstanceOf(StringNode.class, node);
+        Assertions.assertEquals("test1", node.value());
     }
 
     @Test
@@ -47,14 +48,36 @@ public class MemGraphTests {
         final var matching = graph.edges(STRING_TO_STRING_LOOKUP)
                 .toList();
 
-        Assertions.assertTrue(matching.size() > 0);
+        Assertions.assertTrue(!matching.isEmpty());
 
         final var firstResult = matching.get(0);
-        Assertions.assertInstanceOf(StringNode.class, firstResult.target().get());
 
-        final var t = firstResult.target().get();
-        Assertions.assertNotNull(t);
-        Assertions.assertEquals("conn_2", t.data());
+        StringNode target = firstResult.target().get();
+        Assertions.assertNotNull(target);
+        Assertions.assertInstanceOf(StringNode.class, target);
+        Assertions.assertEquals("conn_2", target.value());
+    }
+
+    @Test
+    public void example() throws Exception {
+        final var graph = TestUtils.createBasicGraph(10);
+
+
+        /*        (chest)
+         * {LocalInventoryReader}---(BlockPos)---->[ConfigNode]
+         *    - provides relative block pos
+         */
+
+        var namedPositionNode = NamedBlockPositionNode.create();
+
+        namedPositionNode.dataStore()
+                .get()
+                .setName("This was changed!");
+
+        var inputs = namedPositionNode.schema().inputNames().toList();
+        var outputs = namedPositionNode.schema().outputNames().toList();
+
+        var firstSchema = namedPositionNode.schema().schema(inputs.get(0));
     }
 
 //    @Test

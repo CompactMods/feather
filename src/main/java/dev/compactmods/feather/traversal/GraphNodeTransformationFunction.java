@@ -1,8 +1,8 @@
 package dev.compactmods.feather.traversal;
 
-import dev.compactmods.feather.MemoryGraph;
+import dev.compactmods.feather.Graph;
 
 @FunctionalInterface
 public interface GraphNodeTransformationFunction<ON, Out> {
-    Out apply(MemoryGraph graph, ON input);
+    Out apply(Graph graph, ON input);
 }

@@ -4,9 +4,6 @@ import com.google.common.graph.MutableValueGraph;
 import com.google.common.graph.ValueGraphBuilder;
 import dev.compactmods.feather.edge.GraphEdge;
 import dev.compactmods.feather.edge.GraphEdgeAccessor;
-import dev.compactmods.feather.edge.GraphEdgeLookupFunction;
-import dev.compactmods.feather.edge.InboundGraphEdgeLookupFunction;
-import dev.compactmods.feather.edge.OutboundGraphEdgeLookupFunction;
 import dev.compactmods.feather.edge.impl.EmptyEdge;
 import dev.compactmods.feather.node.NodeAccessor;
 import dev.compactmods.feather.node.GraphAdjacentNodeStream;
@@ -22,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "UnstableApiUsage"})
-public class MemoryGraph implements NodeAccessor, GraphEdgeAccessor {
+public class Graph implements NodeAccessor, GraphEdgeAccessor {
 
     private final MutableValueGraph<Node<?>, GraphEdge<?, ?>> graph;
     private final ConcurrentHashMap<UUID, Node<?>> nodes = new ConcurrentHashMap<>();
 
-    public MemoryGraph() {
+    public Graph() {
         graph = ValueGraphBuilder
                 .directed()
                 .build();

@@ -1,11 +1,11 @@
 package dev.compactmods.feather.traversal;
 
-import dev.compactmods.feather.MemoryGraph;
+import dev.compactmods.feather.Graph;
 
 import java.util.stream.Stream;
 
 @FunctionalInterface
 public interface GraphNodeStreamFunction<ON, Out> {
 
-    Stream<Out> apply(MemoryGraph graph, ON input);
+    Stream<Out> apply(Graph graph, ON input);
 }

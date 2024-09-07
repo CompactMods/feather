@@ -4,7 +4,5 @@ import dev.compactmods.feather.node.schema.NodeSchema;
 
 import java.util.UUID;
 
-public interface Node<T> {
-    UUID id();
-    NodeSchema<T> schema();
+public record NodeInstance<T>(UUID id, NodeSchema<T> schema) implements Node<T> {
 }

@@ -1,13 +1,14 @@
 package dev.compactmods.feather.tests;
 
-import dev.compactmods.feather.MemoryGraph;
+import dev.compactmods.feather.Graph;
+import dev.compactmods.feather.tests.example.StringNode;
 
 import java.util.UUID;
 
 public class TestUtils {
 
-    public static MemoryGraph createBasicGraph(int numNodes) {
-        final var g = new MemoryGraph();
+    public static Graph createBasicGraph(int numNodes) {
+        final var g = new Graph();
 
         final var conn1 = g.addNode(new StringNode(UUID.randomUUID(), "conn_1"));
         final var conn2 = g.addNode(new StringNode(UUID.randomUUID(), "conn_2"));
