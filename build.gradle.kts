@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains:annotations:24.0.0")
-    implementation("com.google.guava:guava:31.0.1-jre")
+    implementation(fastutil.fastutil)
 
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")

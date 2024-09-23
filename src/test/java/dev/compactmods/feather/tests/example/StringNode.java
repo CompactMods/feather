@@ -1,24 +1,33 @@
 package dev.compactmods.feather.tests.example;
 
-import dev.compactmods.feather.node.Node;
-import dev.compactmods.feather.node.schema.NodeSchema;
+import dev.compactmods.feather.api.node.DataHoldingNode;
+import dev.compactmods.feather.api.node.NodeDataAccess;
+import dev.compactmods.feather.api.node.NodeDataSchema;
+import dev.compactmods.feather.api.property.Property;
+import dev.compactmods.feather.node.DataNodeSchemaBuilder;
+import dev.compactmods.feather.property.BasicPropertySchemas;
+import dev.compactmods.feather.property.NamedProperty;
+import dev.compactmods.feather.property.SimplePropertyDataStore;
 
-import java.util.UUID;
+public record StringNode(SimplePropertyDataStore<StringNode> propertyStore) implements DataHoldingNode<StringNode> {
 
-public record StringNode(UUID id, MutableStorage<String> dataStore) implements Node<String> {
+    public static final Property<String> VALUE = new NamedProperty<>("value", BasicPropertySchemas.STRING);
 
-    private static final SimpleNodeSchema<String> SCHEMA = new SimpleNodeSchema<>("");
+    public static final NodeDataSchema<StringNode> SCHEMA = new DataNodeSchemaBuilder<>(StringNode.class)
+            .addProperties(VALUE)
+            .build();
 
-    public StringNode(UUID id, String initialValue) {
-        this(id, new MutableStorage<>(initialValue));
+    public static StringNode create() {
+        return new StringNode(new SimplePropertyDataStore<>(SCHEMA));
     }
 
     @Override
-    public NodeSchema<String> schema() {
+    public NodeDataSchema<StringNode> getSchema() {
         return SCHEMA;
     }
 
-    public String value() {
-        return dataStore.get();
+    @Override
+    public NodeDataAccess<StringNode> dataAccess() {
+        return propertyStore.makeAccess();
     }
 }

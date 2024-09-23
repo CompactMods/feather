@@ -1,42 +1,51 @@
 package dev.compactmods.feather.tests.example;
 
-import dev.compactmods.feather.node.Node;
-import dev.compactmods.feather.node.schema.NodeSchema;
+import dev.compactmods.feather.api.edge.NodeConnectionPoint;
+import dev.compactmods.feather.api.node.ConnectableNode;
+import dev.compactmods.feather.api.node.DataHoldingNode;
+import dev.compactmods.feather.api.node.NodeDataAccess;
+import dev.compactmods.feather.api.node.NodeDataSchema;
+import dev.compactmods.feather.property.BasicPropertySchemas;
+import dev.compactmods.feather.api.property.Property;
+import dev.compactmods.feather.api.property.PropertySchema;
+import dev.compactmods.feather.property.SimplePropertySchema;
+import dev.compactmods.feather.property.SimplePropertyDataStore;
+import dev.compactmods.feather.node.DataNodeSchemaBuilder;
 
-import java.util.UUID;
+public final class NamedBlockPositionNode implements DataHoldingNode<NamedBlockPositionNode>, ConnectableNode {
 
-public record NamedBlockPositionNode(UUID id, MutableStorage<Data> dataStore) implements Node<NamedBlockPositionNode.Data> {
+    public static final PropertySchema<Long> BLOCK_POS = SimplePropertySchema.required(0L);
 
-    private static final NodeSchema<Data> SCHEMA = NodeSchema.<Data>builder()
-            .addData("name", "", name -> name.input()
-                    .optional()
-                    .readable(Data::name)
-                    .modifiable(Data::setName))
-            .addData("position", 0L, position -> position.input().output()
-                    .readable(Data::packedPosition))
+    public static final NodeDataSchema<NamedBlockPositionNode> SCHEMA = new DataNodeSchemaBuilder<>(NamedBlockPositionNode.class)
+            .addProperties("name", BasicPropertySchemas.OPTIONAL_STRING)
+            .addProperties("position", BLOCK_POS)
             .build();
 
+    public static final Property<String> NAME = SCHEMA.getProperty("name", String.class)
+            .orElseThrow();
+
+    private final SimplePropertyDataStore<NamedBlockPositionNode> dataStore;
+
+    public NamedBlockPositionNode(SimplePropertyDataStore<NamedBlockPositionNode> dataStore) {
+        this.dataStore = dataStore;
+    }
+
     public static NamedBlockPositionNode create() {
-        return new NamedBlockPositionNode(UUID.randomUUID(), new MutableStorage<>(new Data()));
+        return new NamedBlockPositionNode(new SimplePropertyDataStore(SCHEMA));
     }
 
     @Override
-    public NodeSchema<Data> schema() {
+    public NodeDataSchema<NamedBlockPositionNode> getSchema() {
         return SCHEMA;
     }
 
-    public static class Data {
-        String name;
-        long packedPosition;
+    @Override
+    public NodeDataAccess<NamedBlockPositionNode> dataAccess() {
+        return dataStore.makeAccess();
+    }
 
-        public String name() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public long packedPosition() { return packedPosition; }
+    @Override
+    public NodeConnectionPoint connector(Property<?> property) {
+        return null;
     }
 }
