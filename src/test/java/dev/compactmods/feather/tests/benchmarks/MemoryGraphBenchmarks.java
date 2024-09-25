@@ -1,4 +1,4 @@
-package dev.compactmods.feather.benchmarks;
+package dev.compactmods.feather.tests.benchmarks;
 
 import dev.compactmods.feather.tests.TestUtils;
 import org.openjdk.jmh.annotations.Benchmark;

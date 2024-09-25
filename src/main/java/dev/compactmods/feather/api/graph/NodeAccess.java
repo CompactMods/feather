@@ -10,5 +10,5 @@ public interface NodeAccess<NodeKey> {
 
     <T> Stream<NodeKey> nodesWithFeature(NodeFeature<T> feature);
 
-    NodeFeatureManager<NodeKey> features(NodeKey nid);
+    NodeFeatureManager<NodeKey> nodeFeatures(NodeKey nid);
 }

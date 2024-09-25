@@ -1,4 +1,4 @@
-package dev.compactmods.feather.tests.example;
+package dev.compactmods.feather.tests.junit.example;
 
 import dev.compactmods.feather.api.node.NodePropertySet;
 import dev.compactmods.feather.api.property.PropertySchema;

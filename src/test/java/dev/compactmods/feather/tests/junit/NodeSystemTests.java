@@ -1,21 +1,21 @@
-package dev.compactmods.feather.tests;
+package dev.compactmods.feather.tests.junit;
 
 import dev.compactmods.feather.api.feature.BasicNodeFeatures;
 import dev.compactmods.feather.api.feature.NodeFeatureManager;
 import dev.compactmods.feather.api.node.stream.GraphNodeStream;
-import dev.compactmods.feather.tests.example.TestNodeProperties;
+import dev.compactmods.feather.tests.TestUtils;
+import dev.compactmods.feather.tests.junit.example.TestNodeProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class NodeSystemTests {
 
     static final GraphNodeStream<UUID> NODE_BY_NAME_LOOKUP = (g) -> g.nodesWithFeature(BasicNodeFeatures.DATA_HOST)
             .filter((nodeID) -> {
-                var feat = g.features(nodeID).getFeature(BasicNodeFeatures.DATA_HOST);
+                var feat = g.nodeFeatures(nodeID).getFeature(BasicNodeFeatures.DATA_HOST);
                 return feat.valueMatches(TestNodeProperties.OPTIONAL_STRING_VALUE, "Test Node 1");
             });
 

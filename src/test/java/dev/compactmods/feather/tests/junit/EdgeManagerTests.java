@@ -1,4 +1,4 @@
-package dev.compactmods.feather.tests;
+package dev.compactmods.feather.tests.junit;
 
 import dev.compactmods.feather.edge.NodeSystemEdgeManager;
 import dev.compactmods.feather.node.NodeEdgeConnections;

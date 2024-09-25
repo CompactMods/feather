@@ -5,7 +5,7 @@ import dev.compactmods.feather.api.feature.BasicNodeFeatures;
 import dev.compactmods.feather.api.node.NodeSchema;
 import dev.compactmods.feather.node.NodePropertySetBuilder;
 import dev.compactmods.feather.property.SimplePropertyDataStore;
-import dev.compactmods.feather.tests.example.TestNodeProperties;
+import dev.compactmods.feather.tests.junit.example.TestNodeProperties;
 
 import java.util.Objects;
 import java.util.UUID;

@@ -52,11 +52,6 @@ public class NodeSystem<NodeKey> implements NodeAccess<NodeKey> {
                 .flatMap(schemaWithFeature -> this.nodesBySchema.get(schemaWithFeature).stream());
     }
 
-    @Override
-    public NodeFeatureManager<NodeKey> features(NodeKey nodeID) {
-        return featureManagers.get(nodeID);
-    }
-
     public void removeNode(NodeKey nodeId) {
         this.nodeSchemas.remove(nodeId);
         edgeManager.delete(nodeId);

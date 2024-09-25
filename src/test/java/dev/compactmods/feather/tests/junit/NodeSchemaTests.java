@@ -1,4 +1,4 @@
-package dev.compactmods.feather.tests;
+package dev.compactmods.feather.tests.junit;
 
 import dev.compactmods.feather.NodeSystem;
 import dev.compactmods.feather.api.feature.BasicNodeFeatures;
@@ -7,7 +7,7 @@ import dev.compactmods.feather.property.NamedProperty;
 import dev.compactmods.feather.node.NodePropertySetBuilder;
 import dev.compactmods.feather.property.SimplePropertyDataStore;
 import dev.compactmods.feather.property.SimplePropertySchema;
-import dev.compactmods.feather.tests.example.NamedBlockPositionNode;
+import dev.compactmods.feather.tests.junit.example.NamedBlockPositionNode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
