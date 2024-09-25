@@ -1,24 +1,23 @@
 package dev.compactmods.feather.tests;
 
-import dev.compactmods.feather.api.node.stream.GraphDataNodeStream;
-import dev.compactmods.feather.api.property.PropertyDataStore;
-import dev.compactmods.feather.tests.example.StringNode;
+import dev.compactmods.feather.api.feature.BasicNodeFeatures;
+import dev.compactmods.feather.api.feature.NodeFeatureManager;
+import dev.compactmods.feather.api.node.stream.GraphNodeStream;
+import dev.compactmods.feather.tests.example.TestNodeProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
-import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class MemNodeSystemTests {
+public class NodeSystemTests {
 
-    static final GraphDataNodeStream<StringNode> NODE_BY_NAME_LOOKUP = (g) -> g.nodesByDataSchema(StringNode.SCHEMA)
-            .map(nodeID -> {
-                var storage = g.nodeData(nodeID).storage();
-                Optional<PropertyDataStore<StringNode>> casted = storage.tryCast(StringNode.SCHEMA);
-                return casted.orElse(null);
-            })
-            .filter(Objects::nonNull)
-            .filter(nodeData -> nodeData.valueMatches(StringNode.VALUE, "Test Node 1"));
+    static final GraphNodeStream<UUID> NODE_BY_NAME_LOOKUP = (g) -> g.nodesWithFeature(BasicNodeFeatures.DATA_HOST)
+            .filter((nodeID) -> {
+                var feat = g.features(nodeID).getFeature(BasicNodeFeatures.DATA_HOST);
+                return feat.valueMatches(TestNodeProperties.OPTIONAL_STRING_VALUE, "Test Node 1");
+            });
 
     // [StringNode]--(????)-->[StringNode]
 //    static final GraphEdgeLookupFunction<StringNode, StringNode> STRING_TO_STRING_LOOKUP =
@@ -37,13 +36,18 @@ public class MemNodeSystemTests {
 
         Assertions.assertNotNull(graph);
 
-        final var node = NODE_BY_NAME_LOOKUP.apply(graph)
+        final var featureManager = NODE_BY_NAME_LOOKUP.apply(graph)
+                .map(graph::nodeFeatures)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow();
 
-        Assertions.assertNotNull(node);
-        Assertions.assertInstanceOf(PropertyDataStore.class, node);
-        Assertions.assertEquals("Test Node 1", node.get(StringNode.VALUE).orElseThrow());
+        Assertions.assertNotNull(featureManager);
+        Assertions.assertInstanceOf(NodeFeatureManager.class, featureManager);
+
+        var dataStore = featureManager.getFeature(BasicNodeFeatures.DATA_HOST);
+        Assertions.assertNotNull(dataStore);
+        Assertions.assertEquals("Test Node 1", dataStore.get(TestNodeProperties.OPTIONAL_STRING_VALUE).orElseThrow());
     }
 
     @Test

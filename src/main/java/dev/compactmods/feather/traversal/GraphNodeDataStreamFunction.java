@@ -9,5 +9,5 @@ import java.util.stream.Stream;
 @FunctionalInterface
 public interface GraphNodeDataStreamFunction {
 
-    Stream<PropertyDataStore<Node>> apply(NodeSystem graph, Node input);
+    Stream<PropertyDataStore> apply(NodeSystem graph, Node input);
 }

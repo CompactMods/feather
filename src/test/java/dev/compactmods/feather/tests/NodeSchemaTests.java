@@ -1,15 +1,17 @@
 package dev.compactmods.feather.tests;
 
 import dev.compactmods.feather.NodeSystem;
-import dev.compactmods.feather.api.node.NodeDataAccess;
+import dev.compactmods.feather.api.feature.BasicNodeFeatures;
 import dev.compactmods.feather.property.BasicPropertySchemas;
 import dev.compactmods.feather.property.NamedProperty;
-import dev.compactmods.feather.node.DataNodeSchemaBuilder;
+import dev.compactmods.feather.node.NodePropertySetBuilder;
+import dev.compactmods.feather.property.SimplePropertyDataStore;
 import dev.compactmods.feather.property.SimplePropertySchema;
 import dev.compactmods.feather.tests.example.NamedBlockPositionNode;
-import dev.compactmods.feather.tests.example.StringNode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.UUID;
 
 public class NodeSchemaTests {
 
@@ -24,7 +26,7 @@ public class NodeSchemaTests {
 
         final var SCHEMA_BLOCKPOS_PROP = SimplePropertySchema.required(0L);
 
-        final var SCHEMA = new DataNodeSchemaBuilder<>(NodeDataAccess.class)
+        final var DATA_SCHEMA = new NodePropertySetBuilder()
                 .addProperties("position", SCHEMA_BLOCKPOS_PROP)
                 .build();
 
@@ -33,25 +35,28 @@ public class NodeSchemaTests {
 
     @Test
     public void canCreateNode() {
-        var namedPositionNode = NamedBlockPositionNode.create();
-        namedPositionNode.dataAccess()
-                .storage()
-                .set(NamedBlockPositionNode.NAME, "This was changed!");
+        var namedPositionNode = new NamedBlockPositionNode();
+//        namedPositionNode.dataAccess()
+//                .storage()
+//                .set(NamedBlockPositionNode.NAME, "This was changed!");
     }
 
     @Test
     public void canCreateConnectionHandlerForProperty() {
 
-        var graph = new NodeSystem();
+        var graph = new NodeSystem<>(UUID::randomUUID);
 
         var NAME = new NamedProperty<>("name", BasicPropertySchemas.STRING);
 
-        var schema = new DataNodeSchemaBuilder<>(StringNode.class)
+        var stringNodeDataSchema = new NodePropertySetBuilder()
                 .addProperties(NAME)
                 .build();
 
-        var node = graph.addNode(schema);
-        var node2 = graph.addNode(schema);
+        var stringNodeSchema = graph.addSchema(builder -> builder
+                .registerFeature(BasicNodeFeatures.DATA_HOST, (nodeID, schema) -> new SimplePropertyDataStore(stringNodeDataSchema)));
+
+        var node = graph.addNode(stringNodeSchema);
+        var node2 = graph.addNode(stringNodeSchema);
 
 //        Assertions.assertEquals(0, node.connections(NAME).count());
 //        Assertions.assertEquals(0, node2.connections(NAME).count());

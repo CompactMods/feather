@@ -1,22 +1,20 @@
 package dev.compactmods.feather.node;
 
-import dev.compactmods.feather.api.node.NodeDataSchema;
+import dev.compactmods.feather.api.node.NodePropertySet;
 import dev.compactmods.feather.api.property.Property;
-import dev.compactmods.feather.property.NamedProperty;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
-public class NodeDataConnections<S> {
+public class NodeEdgeConnections<NodeKey> {
 
-    private final NodeDataSchema<S> schema;
+    private final NodePropertySet schema;
     private final Set<Property<?>> connectableProperties;
     private final Map<Property<?>, PropertyConnectionType> connectionTypes;
 
-    public NodeDataConnections(NodeDataSchema<S> schema) {
+    public NodeEdgeConnections(NodePropertySet schema) {
         this.schema = schema;
         this.connectableProperties = new HashSet<>();
         this.connectionTypes = new HashMap<>();

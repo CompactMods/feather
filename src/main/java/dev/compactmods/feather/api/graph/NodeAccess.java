@@ -1,15 +1,14 @@
 package dev.compactmods.feather.api.graph;
 
-import dev.compactmods.feather.api.node.NodeDataAccess;
-import dev.compactmods.feather.api.node.NodeDataSchema;
+import dev.compactmods.feather.api.feature.NodeFeature;
+import dev.compactmods.feather.api.feature.NodeFeatureManager;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 
-public interface NodeAccess {
-    Stream<UUID> nodeIDs();
+public interface NodeAccess<NodeKey> {
+    Stream<NodeKey> nodeIDs();
 
-    <T> NodeDataAccess<T> nodeData(UUID nodeID);
+    <T> Stream<NodeKey> nodesWithFeature(NodeFeature<T> feature);
 
-    <TNode, TSchema extends NodeDataSchema<TNode>> Stream<UUID> nodesByDataSchema(TSchema schema);
+    NodeFeatureManager<NodeKey> features(NodeKey nid);
 }
