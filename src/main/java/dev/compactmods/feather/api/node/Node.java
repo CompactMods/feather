@@ -1,5 +1,5 @@
 package dev.compactmods.feather.api.node;
 
-public interface Node {
-    NodeSchema schema();
+public interface Node<NodeKey> {
+    NodeSchema<NodeKey> schema();
 }

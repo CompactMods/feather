@@ -18,12 +18,10 @@ public class NodeFeatureManager<NodeKey> {
 
     public void createAndRegisterFeatures(NodeSchema<NodeKey> schema) {
         for(var feat : schema.features()) {
-            if(feat instanceof InstancedNodeFeature<?> instancedNodeFeature) {
-                var initializer = schema.featureInitializer(instancedNodeFeature);
-                var instance = initializer.createInstance(nodeID, schema);
+            var initializer = schema.featureInitializer(feat);
+            var instance = initializer.createInstance(nodeID, schema);
 
-                this.featureInstances.put(feat, instance);
-            }
+            this.featureInstances.put(feat, instance);
         }
     }
 

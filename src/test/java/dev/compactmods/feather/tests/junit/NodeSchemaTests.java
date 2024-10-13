@@ -53,7 +53,7 @@ public class NodeSchemaTests {
                 .build();
 
         var stringNodeSchema = graph.addSchema(builder -> builder
-                .registerFeature(BasicNodeFeatures.DATA_HOST, (nodeID, schema) -> new SimplePropertyDataStore(stringNodeDataSchema)));
+                .registerFeature(BasicNodeFeatures.PROPERTY_DATA_STORE, (nodeID, schema) -> new SimplePropertyDataStore(stringNodeDataSchema)));
 
         var node = graph.addNode(stringNodeSchema);
         var node2 = graph.addNode(stringNodeSchema);

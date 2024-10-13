@@ -8,13 +8,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class NodeEdgeConnections<NodeKey> {
+public class DirectedConnections<NodeKey> {
 
     private final NodePropertySet schema;
     private final Set<Property<?>> connectableProperties;
     private final Map<Property<?>, PropertyConnectionType> connectionTypes;
 
-    public NodeEdgeConnections(NodePropertySet schema) {
+    public DirectedConnections(NodePropertySet schema) {
         this.schema = schema;
         this.connectableProperties = new HashSet<>();
         this.connectionTypes = new HashMap<>();

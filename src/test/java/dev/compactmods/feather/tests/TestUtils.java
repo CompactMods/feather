@@ -2,10 +2,13 @@ package dev.compactmods.feather.tests;
 
 import dev.compactmods.feather.NodeSystem;
 import dev.compactmods.feather.api.feature.BasicNodeFeatures;
+import dev.compactmods.feather.api.feature.NodeFeatureInstance;
 import dev.compactmods.feather.api.node.NodeSchema;
+import dev.compactmods.feather.api.node.stream.NodeStreamFunction;
 import dev.compactmods.feather.node.NodePropertySetBuilder;
 import dev.compactmods.feather.property.SimplePropertyDataStore;
 import dev.compactmods.feather.tests.junit.example.TestNodeProperties;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -19,7 +22,9 @@ public class TestUtils {
                 .addProperties(TestNodeProperties.OPTIONAL_STRING_VALUE)
                 .build();
 
-        final var stringSchema = g.addSchema(b -> b.registerFeature(BasicNodeFeatures.DATA_HOST, (nid, o) -> new SimplePropertyDataStore(stringNodePropertySet)));
+        final var stringSchema = g.addSchema(b -> {
+            b.registerFeature(BasicNodeFeatures.PROPERTY_DATA_STORE, (nid, o) -> new SimplePropertyDataStore(stringNodePropertySet));
+        });
 
         final var conn1 = makeStringNodeWithValue(g, stringSchema, "conn_1");
         final var conn2 = makeStringNodeWithValue(g, stringSchema, "conn_2");
@@ -36,10 +41,10 @@ public class TestUtils {
         final var newNodeId = g.addNode(stringSchema);
 
         try {
-            var feats = g.nodeFeatures(newNodeId);
+            var feats = g.featureManager().nodeFeatures(newNodeId);
             Objects.requireNonNull(feats);
 
-            var data = feats.getFeature(BasicNodeFeatures.DATA_HOST);
+            var data = feats.getFeature(BasicNodeFeatures.PROPERTY_DATA_STORE);
             Objects.requireNonNull(data);
 
             data.set(TestNodeProperties.OPTIONAL_STRING_VALUE, value);
@@ -50,5 +55,15 @@ public class TestUtils {
         }
 
         return newNodeId;
+    }
+
+    public static @NotNull NodeStreamFunction<UUID> makeStringNodeNameLookup(String name) {
+        return nodeSystem -> nodeSystem.featureManager()
+                .nodesWithFeature(BasicNodeFeatures.PROPERTY_DATA_STORE)
+                .filter((nf) -> {
+                    final var dataStore = nf.feature();
+                    return dataStore.valueMatches(TestNodeProperties.OPTIONAL_STRING_VALUE, name);
+                })
+                .map(NodeFeatureInstance::nodeID);
     }
 }

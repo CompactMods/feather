@@ -8,6 +8,6 @@ import dev.compactmods.feather.edge.DirectedConnectionManager;
  *
  * @param <TDataType>
  */
-public interface NodeDataConnectionPoint<TDataType> extends NodeConnectionPoint {
+public interface DataConnectionPoint<TParent, TDataType> extends ConnectionPoint<TParent> {
     Class<TDataType> dataType();
 }

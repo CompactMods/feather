@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Warmup(iterations = 3, time = 5)
 public class TraversalBenchmarks {
 
-    @Param({ "5000", "10000", "50000" })
+    @Param({"5000", "10000", "50000"})
     public int numNodes;
 
     public int randomIndex;
@@ -34,20 +34,19 @@ public class TraversalBenchmarks {
     public NodeSystem<UUID> graph;
 
     @Setup(Level.Invocation)
-    public void setupBenchmarks() throws Exception {
+    public void setupBenchmarks() {
         graph = TestUtils.createBasicGraph(numNodes);
         randomIndex = ThreadLocalRandom.current().nextInt(1, numNodes + 1);
     }
 
     @Benchmark
     public void bmNodeByLookup(Blackhole blackhole) {
-        final var node = graph.nodeIDs()
-                .map(graph::nodeFeatures)
-                .filter(Objects::nonNull)
+        var foundID = TestUtils.makeStringNodeNameLookup("Test Node " + randomIndex)
+                .apply(graph)
                 .findFirst()
                 .orElseThrow();
 
-        blackhole.consume(node);
+        blackhole.consume(foundID);
     }
 //
 //    @Benchmark

@@ -1,6 +1,5 @@
 package dev.compactmods.feather.property;
 
-import dev.compactmods.feather.api.node.NodeDataAccess;
 import dev.compactmods.feather.api.node.NodePropertySet;
 import dev.compactmods.feather.api.property.Property;
 import dev.compactmods.feather.api.property.PropertyDataStore;

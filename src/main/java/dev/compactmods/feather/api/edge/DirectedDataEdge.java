@@ -1,4 +1,4 @@
 package dev.compactmods.feather.api.edge;
 
-public interface DirectedDataEdge<TDataType, SConn extends NodeDataConnectionPoint<TDataType>, TConn extends NodeDataConnectionPoint<TDataType>>
-    extends DirectedEdge<SConn, TConn> { }
+public interface DirectedDataEdge<TParent, TDataType, TDataConnectionType extends DataConnectionPoint<TParent, TDataType>>
+    extends DirectedEdge<TParent, TDataConnectionType> { }

@@ -1,6 +1,5 @@
 package dev.compactmods.feather.node;
 
-import dev.compactmods.feather.api.feature.InstancedNodeFeature;
 import dev.compactmods.feather.api.node.NodePropertySet;
 import dev.compactmods.feather.api.property.Property;
 import dev.compactmods.feather.api.property.PropertySchema;

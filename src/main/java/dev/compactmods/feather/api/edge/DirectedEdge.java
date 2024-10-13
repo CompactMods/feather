@@ -2,7 +2,7 @@ package dev.compactmods.feather.api.edge;
 
 import java.lang.ref.WeakReference;
 
-public interface DirectedEdge<S extends NodeConnectionPoint, T extends NodeConnectionPoint> {
-    WeakReference<S> source();
-    WeakReference<T> target();
+public interface DirectedEdge<TConnectType, TConnectionPoint extends ConnectionPoint<TConnectType>> {
+    WeakReference<TConnectionPoint> source();
+    WeakReference<TConnectionPoint> target();
 }

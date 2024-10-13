@@ -1,10 +1,12 @@
 package dev.compactmods.feather.tests.junit;
 
 import dev.compactmods.feather.api.feature.BasicNodeFeatures;
+import dev.compactmods.feather.api.feature.NodeFeatureInstance;
 import dev.compactmods.feather.api.feature.NodeFeatureManager;
-import dev.compactmods.feather.api.node.stream.GraphNodeStream;
+import dev.compactmods.feather.api.node.stream.NodeStreamFunction;
 import dev.compactmods.feather.tests.TestUtils;
 import dev.compactmods.feather.tests.junit.example.TestNodeProperties;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,39 +15,33 @@ import java.util.UUID;
 
 public class NodeSystemTests {
 
-    static final GraphNodeStream<UUID> NODE_BY_NAME_LOOKUP = (g) -> g.nodesWithFeature(BasicNodeFeatures.DATA_HOST)
-            .filter((nodeID) -> {
-                var feat = g.nodeFeatures(nodeID).getFeature(BasicNodeFeatures.DATA_HOST);
-                return feat.valueMatches(TestNodeProperties.OPTIONAL_STRING_VALUE, "Test Node 1");
-            });
-
     // [StringNode]--(????)-->[StringNode]
 //    static final GraphEdgeLookupFunction<StringNode, StringNode> STRING_TO_STRING_LOOKUP =
 //            (edgeAccessor) -> edgeAccessor.edges(StringNode.class, StringNode.class);
 
     @Test
     public void canCreateBasicGraph() {
-        final var graph = TestUtils.createBasicGraph(1);
+        final var graph = TestUtils.createBasicGraph(1000);
 
         Assertions.assertNotNull(graph);
     }
 
     @Test
     public void canFindNodeViaDataProperty() throws Exception {
-        final var graph = TestUtils.createBasicGraph(1);
+        final var graph = TestUtils.createBasicGraph(1000);
 
         Assertions.assertNotNull(graph);
 
-        final var featureManager = NODE_BY_NAME_LOOKUP.apply(graph)
-                .map(graph::nodeFeatures)
-                .filter(Objects::nonNull)
+        final var featureManager = TestUtils.makeStringNodeNameLookup("Test Node 1")
+                .apply(graph)
+                .map(graph::featureManager)
                 .findFirst()
                 .orElseThrow();
 
         Assertions.assertNotNull(featureManager);
         Assertions.assertInstanceOf(NodeFeatureManager.class, featureManager);
 
-        var dataStore = featureManager.getFeature(BasicNodeFeatures.DATA_HOST);
+        var dataStore = featureManager.getFeature(BasicNodeFeatures.PROPERTY_DATA_STORE);
         Assertions.assertNotNull(dataStore);
         Assertions.assertEquals("Test Node 1", dataStore.get(TestNodeProperties.OPTIONAL_STRING_VALUE).orElseThrow());
     }
