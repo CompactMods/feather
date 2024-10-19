@@ -1,9 +1,9 @@
 package dev.compactmods.feather.edge;
 
-import dev.compactmods.feather.api.edge.DirectedEdge;
-import dev.compactmods.feather.api.edge.ConnectionPoint;
-import dev.compactmods.feather.api.node.ConnectableNode;
-import dev.compactmods.feather.api.node.Node;
+import dev.compactmods.feather.core.edge.DirectedEdge;
+import dev.compactmods.feather.core.edge.ConnectionPoint;
+import dev.compactmods.feather.core.node.ConnectableNode;
+import dev.compactmods.feather.core.node.Node;
 import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 
 import java.lang.ref.WeakReference;

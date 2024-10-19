@@ -1,7 +1,7 @@
 package dev.compactmods.feather.node;
 
-import dev.compactmods.feather.api.feature.NodeFeature;
-import dev.compactmods.feather.api.node.NodeSchema;
+import dev.compactmods.feather.core.feature.NodeFeature;
+import dev.compactmods.feather.core.node.NodeSchema;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 

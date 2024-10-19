@@ -1,10 +1,9 @@
 package dev.compactmods.feather.node;
 
-import dev.compactmods.feather.api.feature.NodeFeature;
-import dev.compactmods.feather.api.feature.NodeFeatureInstance;
-import dev.compactmods.feather.api.feature.NodeFeatureManager;
-import dev.compactmods.feather.api.node.NodeSchema;
-import it.unimi.dsi.fastutil.Pair;
+import dev.compactmods.feather.core.feature.NodeFeature;
+import dev.compactmods.feather.core.feature.NodeFeatureInstance;
+import dev.compactmods.feather.core.feature.NodeFeatureManager;
+import dev.compactmods.feather.core.node.NodeSchema;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class NodeSystemFeatureManager<NodeKey> implements dev.compactmods.feather.api.feature.NodeSystemFeatureManager<NodeKey> {
+public class NodeSystemFeatureManager<NodeKey> implements dev.compactmods.feather.core.feature.NodeSystemFeatureManager<NodeKey> {
 
     protected final Map<NodeKey, NodeFeatureManager<NodeKey>> featureManagers;
     protected final Map<NodeFeature<?>, Set<NodeKey>> featureNodeLookup;

@@ -1,13 +1,13 @@
 package dev.compactmods.feather.tests;
 
 import dev.compactmods.feather.NodeSystem;
-import dev.compactmods.feather.api.feature.BasicNodeFeatures;
-import dev.compactmods.feather.api.feature.NodeFeatureInstance;
-import dev.compactmods.feather.api.node.NodeSchema;
-import dev.compactmods.feather.api.node.stream.NodeStreamFunction;
+import dev.compactmods.feather.feature.BasicNodeFeatures;
+import dev.compactmods.feather.core.feature.NodeFeatureInstance;
+import dev.compactmods.feather.core.node.NodeSchema;
+import dev.compactmods.feather.core.node.stream.NodeStreamFunction;
 import dev.compactmods.feather.node.NodePropertySetBuilder;
 import dev.compactmods.feather.property.SimplePropertyDataStore;
-import dev.compactmods.feather.tests.junit.example.TestNodeProperties;
+import dev.compactmods.feather.tests.schema.TestNodeProperties;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

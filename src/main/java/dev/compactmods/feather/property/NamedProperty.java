@@ -1,7 +1,7 @@
 package dev.compactmods.feather.property;
 
-import dev.compactmods.feather.api.property.Property;
-import dev.compactmods.feather.api.property.PropertySchema;
+import dev.compactmods.feather.core.node.property.Property;
+import dev.compactmods.feather.core.node.property.PropertySchema;
 
 public record NamedProperty<T>(String name, PropertySchema<T> schema) implements Property<T> {
     @Override

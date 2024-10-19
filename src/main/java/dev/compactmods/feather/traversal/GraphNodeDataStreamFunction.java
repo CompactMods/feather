@@ -1,8 +1,8 @@
 package dev.compactmods.feather.traversal;
 
 import dev.compactmods.feather.NodeSystem;
-import dev.compactmods.feather.api.node.Node;
-import dev.compactmods.feather.api.property.PropertyDataStore;
+import dev.compactmods.feather.core.node.Node;
+import dev.compactmods.feather.core.node.property.PropertyDataStore;
 
 import java.util.stream.Stream;
 

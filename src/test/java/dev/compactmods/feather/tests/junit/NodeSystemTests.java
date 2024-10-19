@@ -1,17 +1,11 @@
 package dev.compactmods.feather.tests.junit;
 
-import dev.compactmods.feather.api.feature.BasicNodeFeatures;
-import dev.compactmods.feather.api.feature.NodeFeatureInstance;
-import dev.compactmods.feather.api.feature.NodeFeatureManager;
-import dev.compactmods.feather.api.node.stream.NodeStreamFunction;
+import dev.compactmods.feather.feature.BasicNodeFeatures;
+import dev.compactmods.feather.core.feature.NodeFeatureManager;
 import dev.compactmods.feather.tests.TestUtils;
-import dev.compactmods.feather.tests.junit.example.TestNodeProperties;
-import org.jetbrains.annotations.NotNull;
+import dev.compactmods.feather.tests.schema.TestNodeProperties;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Objects;
-import java.util.UUID;
 
 public class NodeSystemTests {
 

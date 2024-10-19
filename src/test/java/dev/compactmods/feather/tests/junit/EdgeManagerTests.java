@@ -1,7 +1,7 @@
 package dev.compactmods.feather.tests.junit;
 
 import dev.compactmods.feather.edge.NodeSystemEdgeManager;
-import dev.compactmods.feather.node.DirectedConnections;
+import dev.compactmods.feather.node.NodeConnections;
 import dev.compactmods.feather.node.NodePropertySetBuilder;
 import dev.compactmods.feather.node.PropertyConnectionType;
 import dev.compactmods.feather.property.BasicPropertySchemas;
@@ -28,7 +28,7 @@ public class EdgeManagerTests {
                 .addProperties(NAME)
                 .build();
 
-        DirectedConnections<UUID> connections = manager.register(UUID.randomUUID(), schema);
+        NodeConnections<UUID> connections = manager.register(UUID.randomUUID(), schema);
 
         Assertions.assertNotNull(connections);
         // Assertions.assertEquals(0, connections.count());
@@ -45,7 +45,7 @@ public class EdgeManagerTests {
                 .addProperties(NAME, NAME2, NAME3)
                 .build();
 
-        DirectedConnections<UUID> connections = manager.register(UUID.randomUUID(), schema);
+        NodeConnections<UUID> connections = manager.register(UUID.randomUUID(), schema);
 
         // Specify that NAME is stored data and an output
         connections.setConnectionType(NAME, PropertyConnectionType.OUTPUT_FROM_STORAGE);

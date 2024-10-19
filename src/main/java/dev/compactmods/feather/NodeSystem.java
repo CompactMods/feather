@@ -1,8 +1,8 @@
 package dev.compactmods.feather;
 
-import dev.compactmods.feather.api.feature.NodeFeatureManager;
-import dev.compactmods.feather.api.graph.ReadableNodeSystem;
-import dev.compactmods.feather.api.node.NodeSchema;
+import dev.compactmods.feather.core.feature.NodeFeatureManager;
+import dev.compactmods.feather.core.graph.ReadableNodeSystem;
+import dev.compactmods.feather.core.node.NodeSchema;
 import dev.compactmods.feather.edge.NodeSystemEdgeManager;
 import dev.compactmods.feather.node.NodeSchemaBuilder;
 import dev.compactmods.feather.node.NodeSystemFeatureManager;

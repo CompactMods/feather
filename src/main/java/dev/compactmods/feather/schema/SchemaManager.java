@@ -1,6 +1,6 @@
 package dev.compactmods.feather.schema;
 
-import dev.compactmods.feather.api.schema.Schema;
+import dev.compactmods.feather.core.schema.Schema;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 
 import java.util.List;

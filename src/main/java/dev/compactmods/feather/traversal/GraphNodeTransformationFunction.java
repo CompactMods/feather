@@ -1,7 +1,7 @@
 package dev.compactmods.feather.traversal;
 
 import dev.compactmods.feather.NodeSystem;
-import dev.compactmods.feather.api.node.Node;
+import dev.compactmods.feather.core.node.Node;
 
 @FunctionalInterface
 public interface GraphNodeTransformationFunction<Out> {

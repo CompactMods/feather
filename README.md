@@ -1,18 +1,19 @@
-# feather
+# feather: a typed Java graph library
 
-# Goal
-1. Create a schema for a node. A node is a composition of several components.
-   - Data: A data node holds data properties, and may expose these properties through connections.
-   - Logic: A logical node applies logical functions and must have at least 1 outbound connection.
+# TODO/Functional Requirements
 
-
-# Requirements
-
-A `NodeSystem` is composed of `Nodes` and their various *components*.
-
-A `Node` may hold several data `properties`, and may `reference` other nodes.
-
-Each data `property` has a `schema`, and each `schema` defines the data structure for the property.
+- [ ] Nodes
+  - [ ] A `Node` has a set of known `features`.
+  - [ ] -
+- [ ] Node Features
+  - [x] A node `feature` is static, defining a characteristic of a node.
+  - [ ] -
+- [ ] Traversal/Edges
+  - [ ] A `node` may connect to another `node`, via an `edge`.
+  - [ ] A node's `property` may connect to another `property` via an `edge`.
+  - [ ] An edge may either be `empty` or have a data `schema` defined.
+    - [ ] An empty edge stores no data, only its endpoints.
+    - [ ] An edge with a data `schema` may have non-computed data attached.
 
 ---
 
