@@ -1,6 +1,6 @@
 package dev.compactmods.feather.tests.junit;
 
-import dev.compactmods.feather.edge.NodeSystemEdgeManager;
+import dev.compactmods.feather.feature.connections.NodeSystemEdgeManager;
 import dev.compactmods.feather.node.NodeConnections;
 import dev.compactmods.feather.node.NodePropertySetBuilder;
 import dev.compactmods.feather.node.PropertyConnectionType;

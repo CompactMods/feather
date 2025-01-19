@@ -1,6 +1,6 @@
 package dev.compactmods.feather.tests.schema;
 
-import dev.compactmods.feather.core.node.property.Property;
+import dev.compactmods.feather.node.property.Property;
 import dev.compactmods.feather.property.BasicPropertySchemas;
 import dev.compactmods.feather.property.NamedProperty;
 

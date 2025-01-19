@@ -1,6 +1,6 @@
 package dev.compactmods.feather.property;
 
-import dev.compactmods.feather.core.node.property.PropertySchema;
+import dev.compactmods.feather.node.property.PropertySchema;
 
 import java.util.function.Supplier;
 

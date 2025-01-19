@@ -30,7 +30,7 @@ public class NodeSchemaTests {
                 .addProperties("position", SCHEMA_BLOCKPOS_PROP)
                 .build();
 
-        Assertions.assertNotNull(NamedBlockPositionNode.SCHEMA);
+        Assertions.assertNotNull(NamedBlockPositionNode.DATA_SCHEMA);
     }
 
     @Test

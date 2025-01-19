@@ -1,7 +1,7 @@
 package dev.compactmods.feather.node;
 
 import dev.compactmods.feather.core.node.NodePropertySet;
-import dev.compactmods.feather.core.node.property.Property;
+import dev.compactmods.feather.node.property.Property;
 
 import java.util.HashMap;
 import java.util.HashSet;

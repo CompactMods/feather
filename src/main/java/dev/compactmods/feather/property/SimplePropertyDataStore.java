@@ -1,8 +1,8 @@
 package dev.compactmods.feather.property;
 
 import dev.compactmods.feather.core.node.NodePropertySet;
-import dev.compactmods.feather.core.node.property.Property;
-import dev.compactmods.feather.core.node.property.PropertyDataStore;
+import dev.compactmods.feather.node.property.Property;
+import dev.compactmods.feather.node.property.PropertyDataStore;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.Map;

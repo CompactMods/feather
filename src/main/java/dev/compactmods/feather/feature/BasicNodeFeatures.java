@@ -1,7 +1,7 @@
 package dev.compactmods.feather.feature;
 
 import dev.compactmods.feather.core.feature.NodeFeature;
-import dev.compactmods.feather.core.node.property.PropertyDataStore;
+import dev.compactmods.feather.node.property.PropertyDataStore;
 
 public interface BasicNodeFeatures {
     NodeFeature<PropertyDataStore> PROPERTY_DATA_STORE = () -> PropertyDataStore.class;

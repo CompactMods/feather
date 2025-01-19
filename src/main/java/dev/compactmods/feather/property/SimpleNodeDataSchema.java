@@ -1,7 +1,7 @@
 package dev.compactmods.feather.property;
 
 import dev.compactmods.feather.core.node.NodePropertySet;
-import dev.compactmods.feather.core.node.property.Property;
+import dev.compactmods.feather.node.property.Property;
 import it.unimi.dsi.fastutil.objects.ReferenceCollection;
 
 import java.util.Set;

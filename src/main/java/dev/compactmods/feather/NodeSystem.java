@@ -2,14 +2,15 @@ package dev.compactmods.feather;
 
 import dev.compactmods.feather.core.feature.NodeFeatureManager;
 import dev.compactmods.feather.core.graph.ReadableNodeSystem;
+import dev.compactmods.feather.core.node.Node;
 import dev.compactmods.feather.core.node.NodeSchema;
-import dev.compactmods.feather.edge.NodeSystemEdgeManager;
+import dev.compactmods.feather.feature.connections.NodeSystemEdgeManager;
 import dev.compactmods.feather.node.NodeSchemaBuilder;
-import dev.compactmods.feather.node.NodeSystemFeatureManager;
 import dev.compactmods.feather.schema.NodeSchemaManager;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -18,22 +19,24 @@ import java.util.stream.Stream;
 public class NodeSystem<NodeKey> implements ReadableNodeSystem<NodeKey> {
 
     private final Supplier<NodeKey> keyGen;
-    private final Set<NodeKey> registeredNodeIds;
-    private final NodeSchemaManager<NodeKey> nodeSchemas;
+    private final Map<NodeKey, Node> nodes;
+    private final NodeSchemaManager nodeSchemas;
     private final NodeSystemEdgeManager<NodeKey> edgeManager;
-    private final NodeSystemFeatureManager<NodeKey> featureManager;
-
 
     public NodeSystem(Supplier<NodeKey> keyGenerator) {
         this.keyGen = keyGenerator;
-        this.registeredNodeIds = new ObjectOpenHashSet<>();
-        this.nodeSchemas = new NodeSchemaManager<>();
+        this.nodes = new Object2ObjectOpenHashMap<>();
+        this.nodeSchemas = new NodeSchemaManager();
         this.edgeManager = new NodeSystemEdgeManager<>();
-        this.featureManager = new NodeSystemFeatureManager<>();
+    }
+
+    @Override
+    public Stream<Node> nodes() {
+        return nodes.values().stream();
     }
 
     public Stream<NodeKey> nodeIDs() {
-        return registeredNodeIds.stream();
+        return nodes.keySet().stream();
     }
 
     @Override
@@ -41,31 +44,31 @@ public class NodeSystem<NodeKey> implements ReadableNodeSystem<NodeKey> {
         return edgeManager;
     }
 
-    @Override
-    public NodeSystemFeatureManager<NodeKey> featureManager() {
-        return featureManager;
+    public NodeFeatureManager featureManager(NodeKey nodeID) {
+        final var node = node(nodeID);
+        if(node == null) return null;
+        return node.features();
     }
 
-    public NodeFeatureManager<NodeKey> featureManager(NodeKey nodeID) {
-        return featureManager.nodeFeatures(nodeID);
+    @Nullable
+    public Node node(NodeKey key) {
+        return nodes.get(key);
     }
 
     public void removeNode(NodeKey nodeId) {
-        this.registeredNodeIds.remove(nodeId);
+        this.nodes.remove(nodeId);
         edgeManager.delete(nodeId);
     }
 
-    public NodeKey addNode(NodeSchema<NodeKey> schema) {
+    public NodeKey addNode(Node instance) {
         final var id = keyGen.get();
-
-        this.registeredNodeIds.add(id);
-        this.nodeSchemas.registerInstance(id, schema);
-        this.featureManager.register(id, schema);
+        this.nodes.put(id, instance);
+        this.nodeSchemas.registerInstance(instance.schema(), instance);
         return id;
     }
 
-    public NodeSchema<NodeKey> addSchema(Consumer<NodeSchemaBuilder<NodeKey>> builder) {
-        var b = new NodeSchemaBuilder<NodeKey>();
+    public NodeSchema addSchema(Consumer<NodeSchemaBuilder> builder) {
+        var b = new NodeSchemaBuilder();
         builder.accept(b);
 
         final var built = b.build();

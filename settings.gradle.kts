@@ -11,3 +11,7 @@ dependencyResolutionManagement {
             .versionRef("fastutil")
     }
 }
+
+include("feather-core")
+//include("feather-storage")
+//include("feather-nodes")
